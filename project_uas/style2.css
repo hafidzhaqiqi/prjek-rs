@@ -1,0 +1,181 @@
+/* style1.css */
+
+/* --- Gaya Global & Tipografi --- */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7f6; /* Warna latar belakang sedikit abu-abu */
+  color: #333; /* Warna teks utama */
+  line-height: 1.6;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header h1 {
+  color: #005A9C; /* Biru korporat yang menenangkan */
+  font-size: 2.5em;
+  margin: 0;
+}
+
+/* --- Bilah Navigasi --- */
+.navigation-bar {
+  background-color: #005A9C; /* Warna biru utama */
+  padding: 15px 0;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;   /* Membuat navbar menempel di atas */
+  top: 0;             /* Posisi menempel di paling atas */
+  z-index: 1000;      /* Memastikan navbar selalu di depan */
+}
+
+.navigation-bar ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navigation-bar ul li {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+.navigation-bar ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 10px 15px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transisi halus saat hover */
+}
+
+.navigation-bar ul li a:hover {
+  background-color: #ffffff; /* Latar belakang berubah saat hover */
+  color: #005A9C;         /* Teks berubah warna saat hover */
+}
+
+/* --- Judul Halaman Utama --- */
+h1 {
+  color: #005A9C;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+/* --- Kontainer untuk Dropdown Pasien --- */
+/* Menata label dan select yang berada di luar .form */
+#pasienSelect, label[for="pasienSelect"] {
+  display: block;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+label[for="pasienSelect"] {
+  font-weight: bold;
+  margin-bottom: 8px;
+  padding: 0 30px; /* Menyamakan dengan padding form */
+}
+
+#pasienSelect {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #666666;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+  margin-bottom: 20px;
+}
+
+/* --- Gaya Formulir Input --- */
+.form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto; /* Posisi di tengah */
+}
+
+.form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  margin-top: 15px;
+  color: #333;
+}
+
+.form input {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #666666;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form input:focus, #pasienSelect:focus {
+  outline: none;
+  border-color: #005A9C;
+  box-shadow: 0 0 5px rgba(0, 90, 156, 0.3);
+}
+
+/* Tombol di dalam form */
+.form button {
+  width: 100%;
+  padding: 15px;
+  background-color: #005A9C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 25px;
+  transition: background-color 0.3s;
+}
+
+.form button:hover {
+  background-color: #004B82;
+}
+
+/* --- Judul Tabel --- */
+h2 {
+  color: #005A9C;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* --- Gaya Tabel Data --- */
+table {
+  width: 100%;
+  max-width: 960px;
+  margin: 20px auto 40px auto;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  overflow: hidden; /* Penting agar border-radius terlihat */
+}
+
+table th, table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table thead th {
+  background-color: #f4f7f6;
+  font-weight: bold;
+  color: #000000;
+}
+
+table tbody tr:hover {
+  background-color: #c9e8ff;
+}
