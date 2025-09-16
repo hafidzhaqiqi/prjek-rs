@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rumah Sakit Airan</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+  <!-- Navigasi Bar -->
+  <div id="container">
+    <h1>Selamat Datang di Rumah Sakit Airan</h1>
+  </div>
+  <div class="navigation-bar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="data_pasien.html">Data Pasien</a></li>
+      <li><a href="data_hasil_lab.html">Data Hasil Lab</a></li>
+    </ul>
+  </div>
+  <br><br>
+  <!-- Akhir Navigasi Bar -->
+
+  <!-- Form -->
+  <div class="form">
+    <h1>Input Data Pasien</h1>
+    <label for="nama">Nama:</label>
+    <input type="text" id="nama" required>
+    <label for="umur">Umur:</label>
+    <input type="number" id="umur" required>
+    <label for="jenis_kelamin">Jenis Kelamin:</label>
+    <br>
+    <select class="form-select" aria-label="Default select example" name="jenis_kelamin" id="jenis_kelamin">
+      <option selected>----------------</option>
+      <option value="P">Perempuan</option>
+      <option value="L">Laki - laki</option>
+    </select>
+    <label for="tanggal">Tanggal Periksa:</label>
+    <input type="date" id="tanggal" required>
+    <label for="alamat">Alamat:</label>
+    <input type="text" id="alamat" required>
+    <label for="diagnosa">Diagnosa:</label>
+    <input type="text" id="diagnosa" required>
+    <label for="dokter_pengirim">Dokter Pengirim:</label>
+    <input type="text" id="dokter_pengirim" required>
+    <label for="penanggung_jawab">Penanggung Jawab:</label>
+    <input type="text" id="penanggung_jawab" required>
+    <button id="submitBtn">Simpan Data</button>
+  </div>
+  <!-- Akhir Form -->
+
+  <!-- Table Pasien -->
+  <div id="studentList">
+    <h2>Data Pasien</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Umur</th>
+          <th>Jenis Kelamin</th>
+          <th>Tanggal Periksa</th>
+          <th>Alamat</th>
+          <th>Diagnosa</th>
+          <th>Dokter Pengirim</th>
+          <th>Penganggung Jawab</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="pasienList"></tbody>
+    </table>
+  </div>
+  <!-- Akhir Table Pasien -->
+
+  <!-- Script -->
+  <script>
+    // localStorage.clear()
+    let dataPasien = null
+    let isSaveButton = true
+
+    // Fungsi untuk mengenerate id
+    function generateUniqueId(existingIds) {
+      let id = 1; // Mulai dari ID 1 atau sesuaikan dengan ID awal yang Anda inginkan
+
+      // Cari ID yang belum digunakan
+      while (existingIds.includes(id)) {
+        id++;
+      }
+
+      return id;
+    }
+
+    // Fungsi untuk menyimpan data pasien ke localStorage
+    function simpanData() {
+      // daftar diri pasien
+      const nama = document.getElementById('nama').value;
+      const umur = document.getElementById('umur').value;
+      const alamat = document.getElementById('alamat').value;
+      const jekel = document.getElementById('jenis_kelamin').value;
+      const tanggal = document.getElementById('tanggal').value;
+      const diagnosa = document.getElementById('diagnosa').value;
+      const dokter_pengirim = document.getElementById('dokter_pengirim').value;
+      const penanggung_jawab = document.getElementById('penanggung_jawab').value;
+      // daftar yang perlu di diagnosis
+      const hemogoblin = isSaveButton ? 0 : dataPasien.hemogoblin ;
+      const hematokrit = isSaveButton ? 0 : dataPasien.hematokrit ;
+      const leukosit = isSaveButton ? 0 : dataPasien.leukosit ;
+      const eritrosit = isSaveButton ? 0 : dataPasien.eritrosit ;
+      const trombosit = isSaveButton ? 0 : dataPasien.trombosit ;
+      // tambahkan lagi jika ada yang perlu di diagnosa selain dari ini
+
+      if (!nama || !umur || !alamat || !jekel || !tanggal || !diagnosa || !dokter_pengirim || !penanggung_jawab) {
+        alert('Silakan isi semua kolom dengan benar.');
+        return;
+      }
+
+      let pasienList = localStorage.getItem('pasienList');
+      let existingIds = []; // Untuk menyimpan semua ID yang sudah ada
+      if (!pasienList) {
+        pasienList = [];
+      } else {
+        pasienList = JSON.parse(pasienList);
+        existingIds = pasienList.map(pasien => pasien.id);
+      }
+
+      const id = isSaveButton ? generateUniqueId(existingIds) : dataPasien.id ;
+      const pasien = {
+        id,
+        nama,
+        umur,
+        alamat,
+        jekel,
+        tanggal,
+        diagnosa,
+        dokter_pengirim,
+        penanggung_jawab,
+        hemogoblin,
+        hematokrit,
+        leukosit,
+        eritrosit,
+        trombosit,
+        // tambahkan juga disini jika ada yang perlu di diagnosa selain dari ini
+      };
+
+      pasienList.push(pasien);
+
+      localStorage.setItem('pasienList', JSON.stringify(pasienList));
+
+      // Bersihkan input
+      document.getElementById('nama').value = '';
+      document.getElementById('umur').value = '';
+      document.getElementById('alamat').value = '';
+      document.getElementById('jenis_kelamin').value = '';
+      document.getElementById('tanggal').value = '';
+      document.getElementById('diagnosa').value = '';
+      document.getElementById('dokter_pengirim').value = '';
+      document.getElementById('penanggung_jawab').value = '';
+
+      // Tampilkan data pasien
+      tampilkanDatapasien();
+    }
+
+    // Fungsi untuk menghapus data pasien berdasarkan Id
+    function hapusData(id) {
+        let pasienList = localStorage.getItem('pasienList');
+
+        if (pasienList) {
+            pasienList = JSON.parse(pasienList);
+
+            // Cari indeks data pasien dengan Id yang sesuai
+            const index = pasienList.findIndex((pasien) => pasien.id === id);
+
+            if (index !== -1) {
+                // Hapus data pasien dari array
+                pasienList.splice(index, 1);
+
+                // Simpan kembali array data pasien ke localStorage
+                localStorage.setItem('pasienList', JSON.stringify(pasienList));
+
+                // Tampilkan data pasien yang diperbarui
+                tampilkanDatapasien();
+            }
+        }
+    }
+
+    // Fungsi untuk mengisi formulir dengan data pasien yang akan diedit
+    function editData(id) {
+      let pasienList = localStorage.getItem('pasienList');
+
+      if (pasienList) {
+        pasienList = JSON.parse(pasienList);
+
+        // Cari data pasien dengan id yang sesuai
+        const pasien = pasienList.find((pasien) => pasien.id === id);
+
+        if (pasien) {
+          isSaveButton = false
+          dataPasien = pasien
+          // Isi formulir dengan data pasien yang akan diedit
+          document.getElementById('nama').value = pasien.nama;
+          document.getElementById('umur').value = pasien.umur;
+          document.getElementById('alamat').value = pasien.alamat;
+          document.getElementById('jenis_kelamin').value = pasien.jekel;
+          document.getElementById('tanggal').value = pasien.tanggal;
+          document.getElementById('diagnosa').value = pasien.diagnosa;
+          document.getElementById('dokter_pengirim').value = pasien.dokter_pengirim;
+          document.getElementById('penanggung_jawab').value = pasien.penanggung_jawab;
+
+          // Setel penggunaan fungsi simpanData sebagai fungsi penyimpanan yang diperbarui
+          document.getElementById('submitBtn').removeEventListener('click', simpanData);
+          document.getElementById('submitBtn').addEventListener('click', function () {
+            if (!isSaveButton) {
+              // Hapus data pasien yang lama
+              hapusData(id);
+              // Simpan data yang diperbarui
+              simpanData();
+              isSaveButton = true
+            }
+          });
+        }
+      }
+    }
+
+    // Fungsi untuk menampilkan data pasien dari localStorage
+    function tampilkanDatapasien() {
+      const pasienList = localStorage.getItem('pasienList');
+      const pasienListContainer = document.getElementById('pasienList');
+
+      if (pasienList) {
+        const pasienArray = JSON.parse(pasienList);
+        pasienListContainer.innerHTML = '';
+
+        for (const pasien of pasienArray) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${pasien.nama}</td>
+            <td>${pasien.umur}</td>
+            <td>${pasien.jekel === 'L' ? 'laki - laki' : 'perempuan'}</td>
+            <td>${pasien.tanggal}</td>
+            <td>${pasien.alamat}</td>
+            <td>${pasien.diagnosa}</td>
+            <td>${pasien.dokter_pengirim}</td>
+            <td>${pasien.penanggung_jawab}</td>
+            <td>
+                <button onclick="editData(${pasien.id})">Edit</button>
+                <button onclick="hapusData(${pasien.id})">Hapus</button>
+            </td>
+          `;
+          pasienListContainer.appendChild(row);
+        }
+      }
+    }
+
+    // Memberikan Suatu Event saat tombol simpan data di tekan
+    document.getElementById('submitBtn').addEventListener('click', function () {
+      if (isSaveButton) {
+        // Simpan data yang diperbarui
+        simpanData();
+        // Setel kembali isSaveButton ke true
+      }
+    });
+
+    // Panggil fungsi untuk menampilkan data pasien saat halaman pertama kali dimuat
+    tampilkanDatapasien();
+  </script>
+</body>
+</html>
