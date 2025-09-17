@@ -64,14 +64,15 @@ body {
   font-weight: bold;
   font-size: 1.1em;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: background-color 0.3s ease; /* Transisi halus saat hover */
 }
 
-/* Efek saat kursor mouse di atas link navigasi */
 .navigation-bar ul li a:hover {
-  background-color: #004B82; /* Warna biru lebih gelap */
+  background-color: #ffffff; /* Warna biru lebih gelap */
+    color: #005A9C; /* Teks berubah warna saat hover */
 }
+
 
 /* --- Gambar Utama --- */
 .image-container {
@@ -128,20 +129,13 @@ body {
   background-color: #e0e0e0;
   margin: 30px 0;
 }
-
-/* --- Penyesuaian untuk Layar Kecil (Responsif) --- */
-@media (max-width: 768px) {
-  .header h1 {
-    font-size: 2em;
+@media (max-width: 600px) {
+  .navigation-bar ul {
+    flex-direction: column;
+    align-items: center;
   }
-
-  .navigation-bar ul li {
-    display: block; /* Membuat menu menjadi vertikal */
-    margin: 10px 0;
-  }
-
-  .container {
-    margin: 10px;
-    padding: 15px;
+  .navigation-bar a {
+    width: 100%;
+    text-align: center;
   }
 }
