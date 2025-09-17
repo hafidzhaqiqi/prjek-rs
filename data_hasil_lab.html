@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Hasil Lab - Rumah Sakit Airan</title>
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Selamat Datang di Rumah Sakit Airan</h1>
+  </div>
+
+  <!-- Navigasi Bar -->
+  <div class="navigation-bar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="data_pasien.html">Data Pasien</a></li>
+      <li><a href="data_hasil_lab.html">Data Hasil Lab</a></li>
+    </ul>
+  </div>
+  <br><br>
+
+  <h1>Input Data Hasil Lab</h1>
+
+  <!-- Pilih pasien -->
+  <label for="pasienSelect">Pilih Pasien:</label>
+  <select id="pasienSelect"></select>
+
+  <!-- Form hasil lab -->
+  <div class="form">
+    <label for="hemogoblin">Hemoglobin:</label>
+    <input type="number" id="hemogoblin" step="0.01">
+
+    <label for="hematokrit">Hematokrit:</label>
+    <input type="number" id="hematokrit" step="0.01">
+
+    <label for="leukosit">Leukosit:</label>
+    <input type="number" id="leukosit">
+
+    <label for="eritrosit">Eritrosit:</label>
+    <input type="number" id="eritrosit" step="0.01">
+
+    <label for="trombosit">Trombosit:</label>
+    <input type="number" id="trombosit">
+
+    <button onclick="simpanHasilLab()">Simpan Hasil Lab</button>
+  </div>
+
+  <br>
+
+  <!-- Tabel hasil lab -->
+  <h2>Data Hasil Lab Pasien</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Hemoglobin</th>
+        <th>Hematokrit</th>
+        <th>Leukosit</th>
+        <th>Eritrosit</th>
+        <th>Trombosit</th>
+      </tr>
+    </thead>
+    <tbody id="hasilLabList"></tbody>
+  </table>
+
+  <script>
+    // Muat daftar pasien ke dropdown
+    function loadPasienDropdown() {
+      let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
+      let pasienSelect = document.getElementById('pasienSelect');
+      pasienSelect.innerHTML = "";
+
+      pasienList.forEach(p => {
+        let option = document.createElement("option");
+        option.value = p.id;
+        option.textContent = `${p.nama} (ID: ${p.id})`;
+        pasienSelect.appendChild(option);
+      });
+    }
+
+    // Simpan hasil lab untuk pasien terpilih
+    function simpanHasilLab() {
+      let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
+      let pasienId = parseInt(document.getElementById("pasienSelect").value);
+
+      let pasien = pasienList.find(p => p.id === pasienId);
+      if (!pasien) {
+        alert("Pasien tidak ditemukan!");
+        return;
+      }
+
+      // ambil nilai input
+      pasien.hemogoblin = document.getElementById("hemogoblin").value || 0;
+      pasien.hematokrit = document.getElementById("hematokrit").value || 0;
+      pasien.leukosit = document.getElementById("leukosit").value || 0;
+      pasien.eritrosit = document.getElementById("eritrosit").value || 0;
+      pasien.trombosit = document.getElementById("trombosit").value || 0;
+
+      // simpan kembali
+      localStorage.setItem('pasienList', JSON.stringify(pasienList));
+
+      alert("Hasil lab berhasil disimpan!");
+      tampilkanHasilLab();
+    }
+
+    // Tampilkan semua hasil lab
+    function tampilkanHasilLab() {
+      let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
+      let hasilLabList = document.getElementById("hasilLabList");
+      hasilLabList.innerHTML = "";
+
+      pasienList.forEach(p => {
+        let row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${p.nama}</td>
+          <td>${p.hemogoblin || "-"}</td>
+          <td>${p.hematokrit || "-"}</td>
+          <td>${p.leukosit || "-"}</td>
+          <td>${p.eritrosit || "-"}</td>
+          <td>${p.trombosit || "-"}</td>
+        `;
+        hasilLabList.appendChild(row);
+      });
+    }
+
+    // saat halaman load
+    window.onload = function() {
+      loadPasienDropdown();
+      tampilkanHasilLab();
+    }
+  </script>
+</body>
+</html>
