@@ -179,3 +179,15 @@ table thead th {
 table tbody tr:hover {
   background-color: #c9e8ff;
 }
+
+/*agar responsif*/
+@media (max-width: 600px) {
+  .navigation-bar ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  .navigation-bar a {
+    width: 100%;
+    text-align: center;
+  }
+}
